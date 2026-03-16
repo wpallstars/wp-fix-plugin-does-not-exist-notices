@@ -170,3 +170,4 @@ webpack.config.js
 gulpfile.js
 Gruntfile.js
 *.zip
+.agents/loop-state/
