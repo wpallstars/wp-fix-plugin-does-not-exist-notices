@@ -99,3 +99,6 @@ reference-plugins export-ignore
 # Merge driver for changelog files to prevent conflicts
 CHANGELOG.md merge=union
 readme.txt merge=union
+
+# Opt out of AI model training
+* ai-training=false
