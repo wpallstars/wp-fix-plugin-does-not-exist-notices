@@ -144,12 +144,12 @@ Apply the minimal fix necessary to address the critical issue.
 
 Increment the PATCH version and update all version numbers:
 
-- Main plugin file (fix-plugin-does-not-exist-notices.php)
+- Main plugin file (wp-fix-plugin-does-not-exist-notices.php)
 - FPDEN_VERSION constant
 - CHANGELOG.md
 - readme.txt
 - README.md
-- languages/fix-plugin-does-not-exist-notices.pot (Project-Id-Version)
+- languages/wp-fix-plugin-does-not-exist-notices.pot (Project-Id-Version)
 
 ### 4. Commit and Push
 

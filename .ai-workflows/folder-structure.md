@@ -28,9 +28,9 @@ This document outlines the folder structure of the plugin and explains the purpo
 
 The `includes/` directory contains the core plugin functionality:
 
-- **includes/core.php** - Core class for handling the main plugin functionality
-- **includes/plugin.php** - Main plugin class that initializes all components
-- **includes/updater.php** - Updater class for handling plugin updates
+- **includes/Core.php** - Core class for handling the main plugin functionality
+- **includes/Plugin.php** - Main plugin class that initializes all components
+- **includes/Updater.php** - Updater class for handling plugin updates
 
 ## File Naming Conventions
 
@@ -50,10 +50,10 @@ The `includes/` directory contains the core plugin functionality:
 
 When referring to files or directories in AI conversations, use the following format:
 
-- **@includes/plugin.php** - Main plugin class
-- **@includes/core.php** - Core functionality
+- **@includes/Plugin.php** - Main plugin class
+- **@includes/Core.php** - Core functionality
 - **@admin/lib/admin.php** - Admin functionality
 - **@admin/lib/modal.php** - Modal functionality
-- **@includes/updater.php** - Updater functionality
+- **@includes/Updater.php** - Updater functionality
 - **@admin/js/update-source-selector.js** - Update source selector JavaScript
 - **@admin/css/update-source-selector.css** - Update source selector CSS
