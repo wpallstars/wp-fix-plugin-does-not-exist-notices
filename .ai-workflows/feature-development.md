@@ -27,7 +27,6 @@ When implementing a new feature:
 - Add appropriate comments
 - Consider performance implications
 - Maintain backward compatibility
-- Review reference plugins in the `reference-plugins/` directory for inspiration and best practices
 
 ### 3. Update Documentation
 
