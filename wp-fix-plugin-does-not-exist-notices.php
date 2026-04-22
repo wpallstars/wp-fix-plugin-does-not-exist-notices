@@ -32,7 +32,7 @@ if (!defined('WPINC')) {
 }
 
 // Load the main plugin class
-require_once plugin_dir_path(__FILE__) . 'includes/plugin.php';
+require_once plugin_dir_path(__FILE__) . 'includes/Plugin.php';
 
 // Initialize the plugin
 // This is a test change for our new workflow
