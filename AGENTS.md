@@ -36,6 +36,7 @@ CHANGELOG.md                                # Changelog (keep in sync with READM
 ```
 
 **Directories that DO NOT exist** (do not attempt to read or create files here):
+
 - `admin/images/` — does not exist
 - `admin/partials/` — does not exist
 - `admin/settings/` — does not exist
@@ -62,19 +63,23 @@ Version appears in **four places** — all must be updated together:
 ## Common Tasks
 
 ### Fix a bug in core plugin logic
+
 Edit `includes/Core.php`. All WordPress hooks are registered in the constructor.
 
 ### Change admin UI or settings
+
 Edit `admin/lib/admin.php` (Admin class) and/or `admin/lib/modal.php` (Modal class).
 CSS: `admin/css/admin-styles.css` or `admin/css/update-source-selector.css`.
 JS: `admin/js/admin-scripts.js` or `admin/js/update-source-selector.js`.
 
 ### Bump version for a release
+
 1. Update version in `wp-fix-plugin-does-not-exist-notices.php` (both header and constructor call).
 2. Update `Stable tag:` in `readme.txt`.
 3. Add changelog entry to `readme.txt`, `CHANGELOG.md`, and `README.md`.
 
 ### Add or fix update source logic
+
 Edit `includes/Updater.php`.
 
 ## Git Workflow
@@ -87,6 +92,7 @@ Edit `includes/Updater.php`.
 ## AI Workflow Documentation
 
 Extended guidance is in `.ai-workflows/`:
+
 - `folder-structure.md` — directory layout with correct filenames
 - `git-workflow.md` — branching, commit messages, remote management
 - `feature-development.md` — feature development process
