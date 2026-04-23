@@ -111,6 +111,7 @@ class Plugin {
 
         // Load required files
         require_once $this->plugin_dir . 'includes/Core.php';
+        require_once $this->plugin_dir . 'includes/Updater.php';
         require_once $this->plugin_dir . 'admin/lib/admin.php';
         require_once $this->plugin_dir . 'admin/lib/modal.php';
     }
