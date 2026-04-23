@@ -53,7 +53,7 @@ CHANGELOG.md                                # Changelog (keep in sync with READM
 
 Version appears in **four places** — all must be updated together:
 
-1. `wp-fix-plugin-does-not-exist-notices.php` — `Version:` header and `new Plugin(__FILE__, 'X.Y.Z')`
+1. `wp-fix-plugin-does-not-exist-notices.php` — `Version:` header and `new Plugin(__FILE__, '2.4.0')` (replace `2.4.0` with the new version)
 2. `includes/Plugin.php` — no direct version constant; version passed via constructor
 3. `readme.txt` — `Stable tag:` and changelog section
 4. `CHANGELOG.md` — top entry
