@@ -53,10 +53,12 @@ CHANGELOG.md                                # Changelog (keep in sync with READM
 
 Version appears in **four places** — all must be updated together:
 
-1. `wp-fix-plugin-does-not-exist-notices.php` — `Version:` header and `new Plugin(__FILE__, '2.4.0')` (replace `2.4.0` with the new version)
-2. `includes/Plugin.php` — no direct version constant; version passed via constructor
-3. `readme.txt` — `Stable tag:` and changelog section
-4. `CHANGELOG.md` — top entry
+1. `wp-fix-plugin-does-not-exist-notices.php` — `Version:` header and `new WPALLSTARS\FixPluginDoesNotExistNotices\Plugin(__FILE__, '2.4.0')` (replace `2.4.0` with the new version)
+2. `readme.txt` — `Stable tag:` and changelog section
+3. `CHANGELOG.md` — top entry
+4. `AGENTS.md` — this file, item 1 above (replace the hardcoded version string)
+
+Note: `includes/Plugin.php` has no direct version constant; the version is passed in via the constructor call in the entry point file.
 
 `README.md` changelog section must also stay in sync with `CHANGELOG.md`.
 
@@ -77,6 +79,7 @@ JS: `admin/js/admin-scripts.js` or `admin/js/update-source-selector.js`.
 1. Update version in `wp-fix-plugin-does-not-exist-notices.php` (both header and constructor call).
 2. Update `Stable tag:` in `readme.txt`.
 3. Add changelog entry to `readme.txt`, `CHANGELOG.md`, and `README.md`.
+4. Update the version string in `AGENTS.md` (item 1 of the Version Management list above).
 
 ### Add or fix update source logic
 
