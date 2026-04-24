@@ -15,7 +15,8 @@
     },
     "autoload": {
         "psr-4": {
-            "WPAllStars\\FixPluginDoesNotExistNotices\\": "includes/"
+            "WPALLSTARS\\FixPluginDoesNotExistNotices\\Admin\\": "admin/lib/",
+            "WPALLSTARS\\FixPluginDoesNotExistNotices\\": "includes/"
         }
     }
 }

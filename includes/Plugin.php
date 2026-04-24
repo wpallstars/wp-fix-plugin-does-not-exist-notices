@@ -76,6 +76,7 @@ class Plugin {
         $this->plugin_url = plugin_dir_url($plugin_file);
 
         $this->define_constants();
+        $this->register_autoloader();
         $this->load_dependencies();
         $this->init_components();
     }
@@ -98,22 +99,53 @@ class Plugin {
     }
 
     /**
+     * Register the PSR-4 autoloader
+     *
+     * Maps plugin namespaces to their corresponding directories so that
+     * new class files are loaded automatically without manual require_once calls.
+     *
+     * @return void
+     */
+    private function register_autoloader() {
+        $plugin_dir = $this->plugin_dir;
+
+        spl_autoload_register(function ($class) use ($plugin_dir) {
+            // Ordered most-specific prefix first so Admin\ resolves before the root namespace.
+            $namespace_map = array(
+                'WPALLSTARS\\FixPluginDoesNotExistNotices\\Admin\\' => $plugin_dir . 'admin/lib/',
+                'WPALLSTARS\\FixPluginDoesNotExistNotices\\'        => $plugin_dir . 'includes/',
+            );
+
+            foreach ($namespace_map as $prefix => $base_dir) {
+                if (strncmp($prefix, $class, strlen($prefix)) !== 0) {
+                    continue;
+                }
+
+                $relative_class = substr($class, strlen($prefix));
+                $file = $base_dir . str_replace('\\', DIRECTORY_SEPARATOR, $relative_class) . '.php';
+
+                if (file_exists($file)) {
+                    require_once $file;
+                    return;
+                }
+            }
+        });
+    }
+
+    /**
      * Load dependencies
+     *
+     * Loads the Composer autoloader when available (vendor installs). Project
+     * classes are resolved by the PSR-4 autoloader registered in register_autoloader().
      *
      * @return void
      */
     private function load_dependencies() {
-        // Load composer autoloader if it exists
+        // Load composer autoloader if it exists (vendor/ directory present).
         $autoloader = $this->plugin_dir . 'vendor/autoload.php';
         if (file_exists($autoloader)) {
             require_once $autoloader;
         }
-
-        // Load required files
-        require_once $this->plugin_dir . 'includes/Core.php';
-        require_once $this->plugin_dir . 'includes/Updater.php';
-        require_once $this->plugin_dir . 'admin/lib/admin.php';
-        require_once $this->plugin_dir . 'admin/lib/modal.php';
     }
 
     /**
