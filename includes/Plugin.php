@@ -76,8 +76,8 @@ class Plugin {
         $this->plugin_url = plugin_dir_url($plugin_file);
 
         $this->define_constants();
-        $this->register_autoloader();
         $this->load_dependencies();
+        $this->register_autoloader();
         $this->init_components();
     }
 
@@ -104,28 +104,47 @@ class Plugin {
      * Maps plugin namespaces to their corresponding directories so that
      * new class files are loaded automatically without manual require_once calls.
      *
+     * Optimisations applied:
+     * - Early exit when the class does not belong to this plugin's namespace,
+     *   avoiding the loop entirely for every foreign class lookup.
+     * - The namespace map is stored in a static variable so it is allocated
+     *   only once across all invocations rather than on every class lookup.
+     * - `require` is used instead of `require_once` because the autoloader is
+     *   only called for classes that are not yet defined, making the redundancy
+     *   check in `require_once` unnecessary.
+     *
      * @return void
      */
     private function register_autoloader() {
         $plugin_dir = $this->plugin_dir;
 
         spl_autoload_register(function ($class) use ($plugin_dir) {
-            // Ordered most-specific prefix first so Admin\ resolves before the root namespace.
-            $namespace_map = array(
-                'WPALLSTARS\\FixPluginDoesNotExistNotices\\Admin\\' => $plugin_dir . 'admin/lib/',
-                'WPALLSTARS\\FixPluginDoesNotExistNotices\\'        => $plugin_dir . 'includes/',
-            );
+            // Skip immediately if the class is not in this plugin's namespace.
+            $base_prefix = 'WPALLSTARS\\FixPluginDoesNotExistNotices\\';
+            if (strncmp($base_prefix, $class, strlen($base_prefix)) !== 0) {
+                return;
+            }
 
-            foreach ($namespace_map as $prefix => $base_dir) {
+            // Static map allocated once; ordered most-specific first so Admin\
+            // resolves before the root namespace.
+            static $namespace_map = null;
+            if ($namespace_map === null) {
+                $namespace_map = array(
+                    'WPALLSTARS\\FixPluginDoesNotExistNotices\\Admin\\' => 'admin/lib/',
+                    'WPALLSTARS\\FixPluginDoesNotExistNotices\\'        => 'includes/',
+                );
+            }
+
+            foreach ($namespace_map as $prefix => $relative_path) {
                 if (strncmp($prefix, $class, strlen($prefix)) !== 0) {
                     continue;
                 }
 
                 $relative_class = substr($class, strlen($prefix));
-                $file = $base_dir . str_replace('\\', DIRECTORY_SEPARATOR, $relative_class) . '.php';
+                $file = $plugin_dir . $relative_path . str_replace('\\', DIRECTORY_SEPARATOR, $relative_class) . '.php';
 
                 if (file_exists($file)) {
-                    require_once $file;
+                    require $file;
                     return;
                 }
             }
@@ -135,8 +154,10 @@ class Plugin {
     /**
      * Load dependencies
      *
-     * Loads the Composer autoloader when available (vendor installs). Project
-     * classes are resolved by the PSR-4 autoloader registered in register_autoloader().
+     * Loads the Composer autoloader when available (vendor installs), registering
+     * it on the spl_autoload stack before the custom PSR-4 loader so that Composer
+     * acts as the primary resolver. Project classes without a vendor install are
+     * resolved by the autoloader registered in register_autoloader().
      *
      * @return void
      */
