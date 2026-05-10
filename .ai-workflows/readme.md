@@ -10,6 +10,7 @@ This directory contains workflow documentation for AI assistants working with th
 - **feature-development.md**: Process for developing new features
 - **folder-structure.md**: Documentation of the plugin's folder structure and naming conventions
 - **git-workflow.md**: Detailed git workflow and branch management guidelines
+- **health-dashboard-remediation.md**: Supervisor health dashboard staleness triage and remediation
 - **incremental-development.md**: Time-efficient approach for incremental development and testing
 - **local-env-vars.md**: Local development environment paths and URLs
 - **multi-repo-workspace.md**: Guidelines for working in workspaces with multiple repositories
