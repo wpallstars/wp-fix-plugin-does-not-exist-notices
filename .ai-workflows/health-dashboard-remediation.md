@@ -34,8 +34,8 @@ Use this runbook when the repository supervisor health dashboard becomes stale.
 4. Run one targeted health issue refresh for this repository:
 
    ```bash
-   REPO_SLUG="wpallstars/wp-fix-plugin-does-not-exist-notices" \
-   REPO_PATH="$HOME/Git/wordpress/wp-fix-plugin-does-not-exist-notices" \
+   REPO_SLUG="<owner/repo>" \
+   REPO_PATH="<your/local/path>" \
    bash -lc '
    source "$HOME/.aidevops/agents/scripts/shared-constants.sh"
    source "$HOME/.aidevops/agents/scripts/worker-lifecycle-common.sh"
