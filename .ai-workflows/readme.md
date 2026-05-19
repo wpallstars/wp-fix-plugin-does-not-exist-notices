@@ -13,6 +13,7 @@ This directory contains workflow documentation for AI assistants working with th
 - **incremental-development.md**: Time-efficient approach for incremental development and testing
 - **local-env-vars.md**: Local development environment paths and URLs
 - **multi-repo-workspace.md**: Guidelines for working in workspaces with multiple repositories
+- **ops-dashboard.md**: Triage notes for aidevops supervisor dashboard freshness alerts
 - **release-process.md**: Steps for preparing and publishing new releases
 - **wiki-documentation.md**: Guidelines for maintaining wiki documentation
 
