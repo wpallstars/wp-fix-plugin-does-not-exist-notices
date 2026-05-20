@@ -8,7 +8,7 @@ health-issue cache before changing plugin code.
 
 ## Triage
 
-1. Confirm the background scheduler job exists and is running.
+1. Confirm the local stats scheduler job exists and is running.
 2. Inspect `~/.aidevops/logs/stats.log` for the affected repository.
 3. Check the pinned dashboard issue body for the `last_refresh:` marker.
 4. Confirm the cache file naming expected by the current aidevops version.
