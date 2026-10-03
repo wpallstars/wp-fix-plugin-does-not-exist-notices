@@ -1,8 +1,0 @@
-{
-  "_comment": "This configuration file is used by Cline AI IDE. It defines model preferences and ignore patterns for AI context. You can use the ! prefix to include files that are excluded by .gitignore. Example: !important-file.log",
-  "ignore": [
-    ".cline-tmp/"
-  ],
-  "model": "gpt-4o",
-  "temperature": 0.2
-}

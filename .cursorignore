@@ -1,8 +1,0 @@
-# Cursor ignore file
-# Additional patterns beyond .gitignore for Cursor's AI context
-
-# You can use the ! prefix to include files that are excluded by .gitignore
-# Example: !important-file.log (This would include important-file.log even if *.log is in .gitignore)
-
-# Cursor-specific temporary files
-.cursor-tmp/

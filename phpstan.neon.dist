@@ -1,0 +1,7 @@
+# PHPStan with the WordPress stubs. Every finding fails: fix the code.
+parameters:
+	level: 8
+	phpVersion: 70400
+	paths:
+		- wp-fix-plugin-does-not-exist-notices.php
+		- includes

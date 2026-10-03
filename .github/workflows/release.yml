@@ -1,5 +1,9 @@
 name: Build Release
 
+# Publishing a vX.Y.Z tag builds the release zip with build.sh and attaches it
+# to the GitHub release. Updaters install the asset whose name starts with the
+# plugin folder, so the zip is wp-fix-plugin-does-not-exist-notices-X.Y.Z.zip.
+
 on:
   push:
     tags:
@@ -7,77 +11,32 @@ on:
 
 jobs:
   build:
-    name: Build and Create Release
+    name: Build and create release
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Get version
-        id: get_version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-
-      - name: Create build directory
-        run: mkdir -p build/wp-fix-plugin-does-not-exist-notices
-
-      - name: Copy plugin files
+      - name: Check the tag matches the plugin version
+        id: version
         run: |
-          cp wp-fix-plugin-does-not-exist-notices.php build/wp-fix-plugin-does-not-exist-notices/
-          cp readme.txt build/wp-fix-plugin-does-not-exist-notices/
-          cp LICENSE build/wp-fix-plugin-does-not-exist-notices/
-          cp README.md build/wp-fix-plugin-does-not-exist-notices/
-          cp -r admin build/wp-fix-plugin-does-not-exist-notices/
-          cp -r includes build/wp-fix-plugin-does-not-exist-notices/
-
-          # Copy directories if they exist
-          if [ -d "assets" ]; then
-            cp -r assets build/wp-fix-plugin-does-not-exist-notices/
+          tag="${GITHUB_REF#refs/tags/v}"
+          header="$(sed -n 's/^ \* Version:[[:space:]]*//p' wp-fix-plugin-does-not-exist-notices.php | tr -d '[:space:]')"
+          if [ "$tag" != "$header" ]; then
+            echo "Tag v$tag does not match Version: $header" >&2
+            exit 1
           fi
+          echo "VERSION=$tag" >> "$GITHUB_OUTPUT"
 
-          if [ -d "languages" ]; then
-            cp -r languages build/wp-fix-plugin-does-not-exist-notices/
-          fi
+      - name: Build zip
+        run: ./build.sh
 
-          if [ -d ".wordpress-org" ]; then
-            cp -r .wordpress-org build/wp-fix-plugin-does-not-exist-notices/
-          fi
-
-      - name: Create ZIP file
-        run: |
-          cd build
-          zip -r ../wp-fix-plugin-does-not-exist-notices-${{ steps.get_version.outputs.VERSION }}.zip wp-fix-plugin-does-not-exist-notices
-
-      - name: Create Release
-        id: create_release
-        uses: softprops/action-gh-release@v1
+      - name: Create release
+        uses: softprops/action-gh-release@v2
         with:
-          name: Release v${{ steps.get_version.outputs.VERSION }}
-          draft: false
-          prerelease: false
-          files: |
-            wp-fix-plugin-does-not-exist-notices-${{ steps.get_version.outputs.VERSION }}.zip
+          name: v${{ steps.version.outputs.VERSION }}
+          files: wp-fix-plugin-does-not-exist-notices-${{ steps.version.outputs.VERSION }}.zip
           body: |
-            Fix 'Plugin file does not exist.' Notices v${{ steps.get_version.outputs.VERSION }}
-
             See [CHANGELOG.md](https://github.com/wpallstars/wp-fix-plugin-does-not-exist-notices/blob/main/CHANGELOG.md) for details.
-
-  # Deploy to WordPress.org
-  wordpress:
-    name: Deploy to WordPress.org
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: WordPress Plugin Deploy
-        id: deploy
-        uses: 10up/action-wordpress-plugin-deploy@stable
-        with:
-          generate-zip: true
-        env:
-          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-          SLUG: wp-fix-plugin-does-not-exist-notices

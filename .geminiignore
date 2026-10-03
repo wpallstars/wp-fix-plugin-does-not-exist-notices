@@ -1,8 +1,0 @@
-# Gemini Code Assist ignore file
-# Additional patterns beyond .gitignore for Gemini Code Assist's AI context
-
-# You can use the ! prefix to include files that are excluded by .gitignore
-# Example: !important-file.log (This would include important-file.log even if *.log is in .gitignore)
-
-# Gemini-specific temporary files
-.gemini-tmp/

@@ -1,46 +1,32 @@
-# This file is used by WordPress.org plugin deployment scripts
-# It determines which files/directories should be excluded from the plugin zip
-# Note: Many patterns are already in .gitignore - this file focuses on deployment-specific exclusions
+# Files left out of the release zip (build.sh).
 
-# Git
+# Git and CI
 .git
 .github
 .gitignore
 .gitattributes
-
-# Build tools
 .distignore
+
+# Development
+AGENTS.md
+CONTRIBUTING.md
+CHANGELOG.md
+README.md
 build.sh
 build
-.drone.yml
-.woodpecker.yml
-
-# Documentation
-CONTRIBUTING.md
-CODE_OF_CONDUCT.md
-CHANGELOG.md
-assets/README.md
-
-# Development files
-node_modules
-.editorconfig
-.eslintrc
-.eslintignore
-.stylelintrc
-phpcs.xml
-phpunit.xml
-tests
-.travis.yml
-.gitlab-ci.yml
-Gruntfile.js
-gulpfile.js
-package.json
-package-lock.json
+vendor
 composer.json
 composer.lock
+phpcs.xml.dist
+phpstan.neon.dist
+.cache
 
-# WordPress.org specific
+# WordPress.org assets (deployed separately)
 .wordpress-org
+
+# Local tool state
+.agents
+.metadata_never_index
 
 # Miscellaneous
 .DS_Store
@@ -48,8 +34,4 @@ Thumbs.db
 .idea
 .vscode
 *.log
-*.bak
-*.tmp
 *.zip
-*~
-._*
