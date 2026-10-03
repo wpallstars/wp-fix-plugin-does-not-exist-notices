@@ -9,6 +9,10 @@ Use this runbook when the repository supervisor health dashboard becomes stale.
   active beyond the expected timeout.
 - Recent stats logs stop before the affected repository is updated.
 
+A loaded scheduler with a successful exit status does not prove that every
+repository refreshed. Per-repository timeouts (`rc=124`) and a deferred repository
+pass can leave an individual dashboard stale while the wrapper finishes normally.
+
 ## Remediation
 
 1. Confirm the scheduler and stats log are present:
@@ -28,8 +32,19 @@ Use this runbook when the repository supervisor health dashboard becomes stale.
    STATS_DRY_RUN=1 bash ~/.aidevops/agents/scripts/stats-wrapper.sh --dry-run
    ```
 
-3. Terminate the stale wrapper process and remove the stale stats pidfile at
-   `~/.aidevops/logs/stats.pid`.
+3. Choose recovery from the evidence, not the dashboard age alone:
+
+   - If the wrapper is confirmed stale, preserve its PID, elapsed time and recent
+     log evidence before terminating it. Remove `~/.aidevops/logs/stats.pid` only
+     after confirming it belongs to that stopped process, not a live successor.
+   - If recent runs finish normally, do not kill the scheduler or remove its
+     pidfile. Inspect `rc=124`, the reported `stage`, and repository-pass deferrals.
+     A timeout in `data-gather` or `body-publication` can prevent a fresh body;
+     a timeout in `maintenance` can occur after publication. Check the actual
+     dashboard marker to distinguish these outcomes.
+
+   The dry run above skips API writes. It proves the functions can load, not that
+   the remote dashboard has refreshed.
 
 4. Run one targeted health issue refresh for this repository:
 
@@ -45,4 +60,13 @@ Use this runbook when the repository supervisor health dashboard becomes stale.
    ```
 
 5. Verify the pinned dashboard issue now has a fresh `last_refresh:` marker and
-   recent `updated_at` timestamp.
+   recent `updated_at` timestamp. For this repository's alert target:
+
+   ```bash
+   gh api repos/wpallstars/wp-fix-plugin-does-not-exist-notices/issues/10 \
+     --jq '{updated_at, refresh: (.body | capture("last_refresh: (?<timestamp>[^\\n]+)").timestamp)}'
+   ```
+
+   Verify both fields; comments can change `updated_at` without refreshing the
+   dashboard body. Keep the alert open if the targeted refresh fails or times out,
+   and record the failed stage instead of manually advancing the marker.
