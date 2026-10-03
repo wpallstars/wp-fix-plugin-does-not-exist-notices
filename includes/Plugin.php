@@ -96,12 +96,7 @@ final class Plugin {
 			$plugins = array_merge( $plugins, array_keys( $network ) );
 		}
 
-		$missing = array();
-		foreach ( $plugins as $plugin ) {
-			if ( is_string( $plugin ) && 0 === validate_file( $plugin ) && ! self::exists( $plugin ) ) {
-				$missing[] = $plugin;
-			}
-		}
+		$missing = array_filter( $plugins, array( __CLASS__, 'is_missing' ) );
 
 		return array_values( array_unique( $missing ) );
 	}
@@ -120,33 +115,26 @@ final class Plugin {
 			return 0;
 		}
 
-		$kept = array();
-		foreach ( $list as $plugin => $value ) {
-			if ( ! is_string( $plugin ) || 0 !== validate_file( $plugin ) || self::exists( $plugin ) ) {
-				$kept[ $plugin ] = $value;
-			}
+		$missing = array_filter( array_keys( $list ), array( __CLASS__, 'is_missing' ) );
+		if ( empty( $missing ) ) {
+			return 0;
 		}
 
-		$removed = count( $list ) - count( $kept );
-		if ( $removed > 0 ) {
-			if ( $network ) {
-				update_site_option( $option, $kept );
-			} else {
-				update_option( $option, $kept );
-			}
-		}
+		$update = $network ? 'update_site_option' : 'update_option';
+		$update( $option, array_diff_key( $list, array_flip( $missing ) ) );
 
-		return $removed;
+		return count( $missing );
 	}
 
 	/**
-	 * Whether a plugin's main file exists.
+	 * Whether an entry names a plugin file, inside the plugins folder, that
+	 * no longer exists.
 	 *
-	 * @param string $plugin Plugin file, relative to the plugins folder.
+	 * @param mixed $plugin Plugin file, relative to the plugins folder.
 	 * @return bool
 	 */
-	private static function exists( $plugin ) {
-		return is_file( WP_PLUGIN_DIR . '/' . $plugin );
+	private static function is_missing( $plugin ) {
+		return is_string( $plugin ) && 0 === validate_file( $plugin ) && ! is_file( WP_PLUGIN_DIR . '/' . $plugin );
 	}
 
 	/**

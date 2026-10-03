@@ -17,7 +17,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Check the tag matches the plugin version
         id: version
@@ -34,7 +34,7 @@ jobs:
         run: ./build.sh
 
       - name: Create release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
         with:
           name: v${{ steps.version.outputs.VERSION }}
           files: wp-fix-plugin-does-not-exist-notices-${{ steps.version.outputs.VERSION }}.zip
