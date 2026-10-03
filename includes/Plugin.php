@@ -128,12 +128,12 @@ final class Plugin {
 
 	/**
 	 * Whether an entry names a plugin file, inside the plugins folder, that
-	 * no longer exists.
+	 * no longer exists. Public because it is used as an array_filter() callback.
 	 *
 	 * @param mixed $plugin Plugin file, relative to the plugins folder.
 	 * @return bool
 	 */
-	private static function is_missing( $plugin ) {
+	public static function is_missing( $plugin ) {
 		return is_string( $plugin ) && 0 === validate_file( $plugin ) && ! is_file( WP_PLUGIN_DIR . '/' . $plugin );
 	}
 
