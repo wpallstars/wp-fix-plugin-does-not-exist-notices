@@ -1,80 +1,33 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Builds wp-fix-plugin-does-not-exist-notices-X.Y.Z.zip with a
+# wp-fix-plugin-does-not-exist-notices/ folder inside, leaving out the files
+# listed in .distignore. X.Y.Z is the Version: header of the main file.
+# Builds only: it does not tag, publish or upload anything.
+set -euo pipefail
 
-# Exit on error
-set -e
+main() {
+	local root slug version build_dir zip_file
+	root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+	slug="wp-fix-plugin-does-not-exist-notices"
+	version="$(sed -n 's/^ \* Version:[[:space:]]*//p' "$root/$slug.php" | tr -d '[:space:]')"
 
-# Check if version is provided
-if [ -z "$1" ]; then
-  echo "Error: Please provide a version number. Example: ./build.sh 1.2"
-  exit 1
-fi
+	if [[ -z "$version" ]]; then
+		printf 'Could not read Version: from %s.php\n' "$slug" >&2
+		return 1
+	fi
 
-VERSION=$1
-PLUGIN_SLUG="wp-fix-plugin-does-not-exist-notices"
-BUILD_DIR="build/$PLUGIN_SLUG"
-ZIP_FILE="${PLUGIN_SLUG}-${VERSION}.zip"
+	build_dir="$root/build"
+	zip_file="$root/$slug-$version.zip"
 
-# Create build directory
-echo "Creating build directory..."
-mkdir -p $BUILD_DIR
+	rm -rf "$build_dir" "$zip_file"
+	mkdir -p "$build_dir/$slug"
+	rsync -a --exclude-from="$root/.distignore" "$root/" "$build_dir/$slug/"
 
-# Install composer dependencies
-echo "Installing composer dependencies..."
-composer install --no-dev --optimize-autoloader
+	(cd "$build_dir" && zip -qr "$zip_file" "$slug")
+	rm -rf "$build_dir"
 
-# Copy required files
-echo "Copying plugin files..."
-cp wp-fix-plugin-does-not-exist-notices.php $BUILD_DIR/
-cp readme.txt $BUILD_DIR/
-cp LICENSE $BUILD_DIR/
-cp README.md $BUILD_DIR/
-cp CHANGELOG.md $BUILD_DIR/
-cp composer.json $BUILD_DIR/
+	printf 'Built %s\n' "$zip_file"
+	return 0
+}
 
-# Copy directories
-echo "Copying directories..."
-mkdir -p $BUILD_DIR/includes
-cp -r includes/* $BUILD_DIR/includes/
-mkdir -p $BUILD_DIR/languages
-cp -r languages/* $BUILD_DIR/languages/
-
-# Copy admin assets
-mkdir -p $BUILD_DIR/admin/css
-cp -r admin/css/* $BUILD_DIR/admin/css/
-mkdir -p $BUILD_DIR/admin/js
-cp -r admin/js/* $BUILD_DIR/admin/js/
-mkdir -p $BUILD_DIR/admin/lib
-cp -r admin/lib/* $BUILD_DIR/admin/lib/
-
-# Create assets directory structure
-mkdir -p $BUILD_DIR/assets
-
-# Copy PNG files from .wordpress-org/assets to the build directory
-mkdir -p $BUILD_DIR/assets/banner
-cp -r .wordpress-org/assets/banner-*.png $BUILD_DIR/assets/banner/ 2>/dev/null || :
-mkdir -p $BUILD_DIR/assets/icon
-cp -r .wordpress-org/assets/icon-*.png $BUILD_DIR/assets/icon/ 2>/dev/null || :
-mkdir -p $BUILD_DIR/assets/screenshots
-cp -r .wordpress-org/assets/screenshot-*.png $BUILD_DIR/assets/screenshots/ 2>/dev/null || :
-
-mkdir -p $BUILD_DIR/vendor
-cp -r vendor/* $BUILD_DIR/vendor/
-
-# Create ZIP file
-echo "Creating ZIP file..."
-cd build
-zip -r ../$ZIP_FILE $PLUGIN_SLUG
-cd ..
-
-# Verify the ZIP file was created
-if [ -f "$ZIP_FILE" ]; then
-  echo "✅ Build successful: $ZIP_FILE created"
-  echo "File path: $(pwd)/$ZIP_FILE"
-
-  # Deploy to local WordPress installation
-  echo "\nDeploying to local WordPress installation..."
-  ./scripts/deploy-local.sh
-else
-  echo "❌ Build failed: ZIP file was not created"
-  exit 1
-fi
+main "$@"

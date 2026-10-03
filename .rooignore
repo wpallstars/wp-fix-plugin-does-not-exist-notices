@@ -1,8 +1,0 @@
-# Roo Code ignore file
-# Additional patterns beyond .gitignore for Roo Code's AI context
-
-# You can use the ! prefix to include files that are excluded by .gitignore
-# Example: !important-file.log (This would include important-file.log even if *.log is in .gitignore)
-
-# Roo-specific temporary files
-.roo-tmp/

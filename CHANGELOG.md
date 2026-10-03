@@ -1,5 +1,21 @@
 All notable changes to this project should be documented both here and in the main Readme files.
 
+#### [3.0.0] - 2026-10-03
+#### Changed
+- Rewritten as one small class (`includes/Plugin.php`) that runs only on the Plugins screen, for people who can manage plugins. No settings, nothing stored, no outside requests, no scripts or styles.
+- Explains WordPress's "Plugin file does not exist" message right below it: which plugins WordPress could not find, that it has switched them off, and what to do next.
+- Requires WordPress 6.2 and PHP 7.4.
+
+#### Added
+- Removes leftover entries for deleted plugins from `recently_activated` and `uninstall_plugins`, which WordPress never clears.
+
+#### Removed
+- The "Remove Notice" link and the "(File Missing)" rows. WordPress switches missing plugins off on the same page load (`validate_active_plugins()` runs after the plugin list is built), so the link always reported "Failed to remove plugin reference". The rows also caused an "Undefined index: DomainPath" notice.
+- The update source chooser (`fpden_update_source` option, deleted on the first visit to the Plugins screen), the bundled updater and the `Update URI` and Gitea headers. Updates come from the `GitHub Plugin URI` header (Git Updater or SEO Pro Stack's Updates from GitHub).
+- Code that deleted the update caches of every plugin, theme and core and flushed the whole object cache on each visit to the Plugins screen.
+- The plugin details override, which showed made-up ratings and install counts.
+- Admin scripts and styles, Composer runtime dependencies, AI tool config files, the unused wiki and AI workflow docs, and the WordPress.org deploy job (the plugin is not on WordPress.org).
+
 #### [2.4.0] - 2025-04-17
 #### Added
 - Comprehensive documentation for working in multi-repository workspaces

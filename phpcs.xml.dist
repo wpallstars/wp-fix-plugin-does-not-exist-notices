@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<ruleset name="FixPluginDoesNotExistNotices">
+	<description>
+		What WordPress.org reviewers and Plugin Check look for, plus
+		compatibility with PHP 7.4 and WordPress 6.2.
+		Run: composer phpcs.
+	</description>
+
+	<file>wp-fix-plugin-does-not-exist-notices.php</file>
+	<file>includes</file>
+
+	<arg name="extensions" value="php"/>
+	<arg value="sp"/>
+	<arg name="colors"/>
+
+	<config name="testVersion" value="7.4-"/>
+	<config name="minimum_wp_version" value="6.2"/>
+
+	<rule ref="PHPCompatibilityWP"/>
+	<rule ref="WordPress">
+		<!-- Yoda conditions are a formatting preference. -->
+		<exclude name="WordPress.PHP.YodaConditions"/>
+		<!-- PascalCase class file to match the namespace. -->
+		<exclude name="WordPress.Files.FileName"/>
+	</rule>
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="wp-fix-plugin-does-not-exist-notices"/>
+			</property>
+		</properties>
+	</rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="WPALLSTARS\FixPluginDoesNotExistNotices"/>
+				<element value="fpden"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>

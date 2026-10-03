@@ -1,22 +1,37 @@
 {
-    "name": "wpallstars/wp-fix-plugin-does-not-exist-notices",
-    "description": "Adds missing plugins to the plugins list with a 'Remove Reference' link so you can permanently clean up invalid plugin entries and remove error notices.",
-    "type": "wordpress-plugin",
-    "license": "GPL-2.0-or-later",
-    "authors": [
-        {
-            "name": "Marcus Quinn",
-            "email": "6428977+marcusquinn@users.noreply.github.com"
-        }
-    ],
-    "require": {
-        "php": ">=7.0",
-        "afragen/git-updater-lite": "^1"
-    },
-    "autoload": {
-        "psr-4": {
-            "WPALLSTARS\\FixPluginDoesNotExistNotices\\Admin\\": "admin/lib/",
-            "WPALLSTARS\\FixPluginDoesNotExistNotices\\": "includes/"
-        }
-    }
+	"name": "wpallstars/wp-fix-plugin-does-not-exist-notices",
+	"description": "Explains the 'Plugin file does not exist' message on the WordPress Plugins screen and cleans up what deleted plugins leave behind.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"authors": [
+		{
+			"name": "Marcus Quinn",
+			"homepage": "https://www.wpallstars.com/"
+		}
+	],
+	"require": {
+		"php": ">=7.4"
+	},
+	"require-dev": {
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"phpcompatibility/phpcompatibility-wp": "^2.1",
+		"phpstan/extension-installer": "^1.4",
+		"phpstan/phpstan": "^2.1",
+		"szepeviktor/phpstan-wordpress": "^2.0",
+		"wp-coding-standards/wpcs": "^3.1"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"phpstan/extension-installer": true
+		}
+	},
+	"scripts": {
+		"phpcs": "phpcs",
+		"phpstan": "phpstan analyse --memory-limit=1G",
+		"lint": [
+			"@phpcs",
+			"@phpstan"
+		]
+	}
 }
