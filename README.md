@@ -1,5 +1,22 @@
 # Fix "Plugin file does not exist" in WordPress
 
+<!-- aidevops:badges:start -->
+<!-- managed by aidevops badges; edit the template, not this block -->
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=wpallstars_wp-fix-plugin-does-not-exist-notices&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=wpallstars_wp-fix-plugin-does-not-exist-notices)
+[![Codacy grade](https://app.codacy.com/project/badge/Grade/8a08be4901104c398427ff7357e66ec4)](https://app.codacy.com/gh/wpallstars/wp-fix-plugin-does-not-exist-notices/dashboard)
+[![CodeFactor](https://www.codefactor.io/repository/github/wpallstars/wp-fix-plugin-does-not-exist-notices/badge)](https://www.codefactor.io/repository/github/wpallstars/wp-fix-plugin-does-not-exist-notices)
+[![License](https://img.shields.io/badge/license-GPL--2.0--or--later-blue.svg)](https://github.com/wpallstars/wp-fix-plugin-does-not-exist-notices/blob/main/LICENSE)
+[![Requires WordPress](https://img.shields.io/badge/WordPress-6.2%2B-21759B.svg?logo=wordpress)](https://github.com/wpallstars/wp-fix-plugin-does-not-exist-notices/blob/main/readme.txt)
+[![Tested up to](https://img.shields.io/badge/tested%20up%20to-7.1-21759B.svg?logo=wordpress)](https://github.com/wpallstars/wp-fix-plugin-does-not-exist-notices/blob/main/readme.txt)
+[![Requires PHP](https://img.shields.io/badge/PHP-7.4%2B-777BB4.svg?logo=php)](https://github.com/wpallstars/wp-fix-plugin-does-not-exist-notices/blob/main/readme.txt)
+[![Latest release](https://img.shields.io/badge/release-latest-blue.svg)](https://github.com/wpallstars/wp-fix-plugin-does-not-exist-notices/releases/latest)
+
+[![Lines of code](docs/metrics/badges/loc.svg)](docs/metrics/repo-metrics.md)
+[![Dependencies](docs/metrics/badges/dependencies.svg)](docs/metrics/repo-metrics.md)
+
+[![Languages by lines of code](docs/metrics/badges/languages.svg)](docs/metrics/repo-metrics.md)
+<!-- aidevops:badges:end -->
+
 > The plugin `folder-name/file-name.php` has been deactivated due to an error: Plugin file does not exist.
 
 Seeing this message on the WordPress Plugins screen? Your site is fine. This page explains what it means, how to fix it in a minute, and a small free plugin that explains it to whoever sees it next.
