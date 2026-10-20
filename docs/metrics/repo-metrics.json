@@ -1,7 +1,7 @@
 {
   "schema": "aidevops.repo-metrics.v1",
   "schema_version": 1,
-  "generated_at": "2026-10-18T15:57:23Z",
+  "generated_at": "2026-10-20T01:17:14Z",
   "tool": {
     "name": "aidevops repo-metrics",
     "version": "1.0.0"
@@ -11,10 +11,10 @@
     "slug": "wpallstars/wp-fix-plugin-does-not-exist-notices"
   },
   "summary": {
-    "source_files": 16,
-    "code": 963,
-    "comments": 118,
-    "blanks": 267,
+    "source_files": 17,
+    "code": 986,
+    "comments": 150,
+    "blanks": 271,
     "languages": 6,
     "dependencies": 6
   },
@@ -25,7 +25,7 @@
       "code": 737,
       "comments": 0,
       "blanks": 221,
-      "percentage": 76.53,
+      "percentage": 74.75,
       "color": "#083fa1"
     },
     {
@@ -34,16 +34,16 @@
       "code": 95,
       "comments": 98,
       "blanks": 26,
-      "percentage": 9.87,
+      "percentage": 9.63,
       "color": "#4F5D95"
     },
     {
       "name": "YAML",
-      "files": 3,
-      "code": 63,
-      "comments": 14,
-      "blanks": 13,
-      "percentage": 6.54,
+      "files": 4,
+      "code": 86,
+      "comments": 46,
+      "blanks": 17,
+      "percentage": 8.72,
       "color": "#cb171e"
     },
     {
@@ -52,7 +52,7 @@
       "code": 37,
       "comments": 0,
       "blanks": 0,
-      "percentage": 3.84,
+      "percentage": 3.75,
       "color": "#292929"
     },
     {
@@ -61,7 +61,7 @@
       "code": 21,
       "comments": 5,
       "blanks": 7,
-      "percentage": 2.18,
+      "percentage": 2.13,
       "color": "#89e051"
     },
     {
@@ -70,7 +70,7 @@
       "code": 10,
       "comments": 1,
       "blanks": 0,
-      "percentage": 1.04,
+      "percentage": 1.01,
       "color": "#6e7781"
     }
   ],
